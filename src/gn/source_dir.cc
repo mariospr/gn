@@ -123,7 +123,7 @@ std::string SourceDir::ResolveRelativeAs(bool as_file,
     v_value = &v.string_value();
   }
   std::string result =
-      ResolveRelativeAs(as_file, v, *v_value, err, source_root);
+      ResolveRelativeAs(as_file, v, *v_value, err, source_root, &actual_path_);
   if (!as_file)
     AssertValueSourceDirString(result);
   return result;

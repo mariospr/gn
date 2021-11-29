@@ -74,7 +74,14 @@ SourceFile::SourceFile(std::string&& value)
     : SourceFile(StringAtom(Normalized(std::move(value)))) {}
 
 SourceFile::SourceFile(StringAtom value) : value_(value) {
+  actual_path_ = BuildSettings::RemapSourcePathToActual(value_.str());
   type_ = GetSourceFileType(value_.str());
+}
+
+SourceFile::SourceFile(const std::string& p,
+           const std::string& p_act) 
+    : SourceFile(StringAtom(Normalized(p))) {
+  actual_path_ = StringAtom(Normalized(p_act));
 }
 
 std::string SourceFile::GetName() const {
@@ -97,8 +104,10 @@ SourceDir SourceFile::GetDir() const {
   return SourceDir(value.substr(0, last_slash + 1));
 }
 
-base::FilePath SourceFile::Resolve(const base::FilePath& source_root) const {
-  return ResolvePath(value_.str(), true, source_root);
+base::FilePath SourceFile::Resolve(const base::FilePath& source_root,
+                                   bool use_actual_path) const {
+  return ResolvePath(use_actual_path ? actual_path_.str() : value_.str(), true,
+                     source_root);
 }
 
 void SourceFile::SetValue(const std::string& value) {

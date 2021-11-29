@@ -58,6 +58,7 @@
     *   [rebase_path: Rebase a file or directory to another location.](#func_rebase_path)
     *   [set_default_toolchain: Sets the default toolchain name.](#func_set_default_toolchain)
     *   [set_defaults: Set default values for a target type.](#func_set_defaults)
+    *   [set_path_map: Set a path override map.](#set_path_map)
     *   [split_list: Splits a list into N different sub-lists.](#func_split_list)
     *   [string_join: Concatenates a list of strings with a separator.](#func_string_join)
     *   [string_replace: Replaces substring in the given string.](#func_string_replace)
@@ -3103,6 +3104,45 @@
     # you don't want the default for a particular default:
     configs -= [ "//tools/mything:settings" ]
   }
+```
+### <a name="set_path_map"></a>**set_path_map**: Set a path override map.
+
+```
+  NOTE: Only used in the "dotgn"-file.
+
+  set_path_map(<path_map>)
+
+  This function takes an array of elements lists having two subelements,
+  an absolute label prefix and an absolute label specifying the actual
+  filesystem path relative to the project's top directory that the prefix
+  is an alias for. The elements must be ordered with the most specific
+  prefixes first, preferably with the least specific "//" element last.
+  Correspondingly, the most specific actual label should be last, and the
+  least specific element first.
+
+  Example specification and label mappings:
+
+    set_path_map([
+      # Prefix, actual path
+      # Most specific prefixes first
+      [
+        "//alpha",
+        "//",
+      ],
+      [
+        "//beta",
+        "//beta",
+      ],
+      [
+        "//",
+        "//gamma",
+      ],
+    ])
+
+    Label             Actual path
+    //alpha/a/b/c     //a/b/c
+    //beta/d/e/f      //beta/d/e/f
+    //foo/g/h/i       //gamma/foo/g/h/i
 ```
 ### <a name="func_split_list"></a>**split_list**: Splits a list into N different sub-lists.
 
@@ -6804,6 +6844,11 @@
       When set specifies the minimum required version of Ninja. The default
       required version is 1.7.2. Specifying a higher version might enable the
       use of some of newer features that can make the build more efficient.
+
+  set_path_map [optional]
+
+      Function used to specify path overrides. See "set_path_map" function
+      for details
 ```
 
 #### **Example .gn file contents**
