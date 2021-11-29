@@ -79,6 +79,10 @@ class Scope {
     // ignored since there is nothing getting lost.
     bool clobber_existing;
 
+    // Keep exisiting value if merge source also have a variable of the same
+    // name
+    bool prefer_existing = false;
+
     // When true, private variables (names beginning with an underscore) will
     // be copied to the destination scope. When false, private values will be
     // skipped.
