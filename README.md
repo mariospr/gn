@@ -213,3 +213,7 @@ desirable.
 
 There have been discussions about adding a versioning scheme with some
 guarantees about backwards-compatibility, but nothing has yet been implemented.
+
+## Vivaldi GN Extension
+
+About the [Vivaldi GN branch](docs/Vivaldi-GN.md)
